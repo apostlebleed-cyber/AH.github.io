@@ -10,7 +10,6 @@
 
 <style>
 
-
 *{
     margin:0;
     padding:0;
@@ -23,7 +22,7 @@ body{
     overflow:hidden;
 }
 
-
+/* ACCESS SCREEN */
 
 #accessScreen{
     position:fixed;
@@ -44,7 +43,6 @@ body{
     margin-bottom:40px;
 }
 
-
 input{
     background:transparent;
     border:1px solid white;
@@ -57,7 +55,6 @@ input{
     outline:none;
     margin-bottom:20px;
 }
-
 
 button{
     padding:12px 30px;
@@ -79,7 +76,18 @@ button:hover{
     letter-spacing:2px;
 }
 
+.access-footer{
+    position:fixed;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-family:"Times New Roman", Times, serif;
+    font-size:20px;
+    letter-spacing:2px;
+}
 
+/* MAIN PAGE */
 
 #mainPage{
     position:fixed;
@@ -101,7 +109,6 @@ button:hover{
     text-align:center;
 }
 
-
 .footer-text{
     position:fixed;
     bottom:20px;
@@ -112,7 +119,6 @@ button:hover{
     font-size:20px;
     letter-spacing:2px;
 }
-
 
 body,input,button,div{
     user-select:text;
@@ -125,7 +131,6 @@ body,input,button,div{
 
 <body>
 
-
 <div id="accessScreen">
     <h1>Compromised Access</h1>
 
@@ -134,11 +139,11 @@ body,input,button,div{
     <button onclick="checkCode()">ENTER</button>
 
     <div id="message"></div>
+
+    <div class="access-footer">AfterHourz 2026</div>
 </div>
 
-
 <div id="mainPage">
-   
     <h1>Live in the present, think about tomorrow</h1>
 
     <div class="footer-text">AfterHourz 2026</div>
@@ -146,9 +151,7 @@ body,input,button,div{
 
 <script>
 
-
 const ACCESS_CODE = "AH888";
-
 
 function checkCode(){
 
@@ -176,7 +179,6 @@ function checkCode(){
     }
 }
 
-
 document.getElementById("codeInput")
 .addEventListener("keypress",function(e){
     if(e.key==="Enter"){
@@ -188,6 +190,3 @@ document.getElementById("codeInput")
 
 </body>
 </html>
-
-
-
