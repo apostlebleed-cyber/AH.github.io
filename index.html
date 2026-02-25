@@ -18,52 +18,13 @@
 body{
     background:black;
     height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     font-family:'Archivo Black',sans-serif;
     overflow:hidden;
 }
 
-/* -------- ACCESS SCREEN -------- */
+/* ===== CENTER SCREENS ===== */
 
-#accessScreen{
-    text-align:center;
-    color:white;
-}
-
-#accessScreen h1{
-    font-size:3vw;
-    margin-bottom:20px;
-}
-
-input{
-    background:black;
-    border:1px solid white;
-    color:white;
-    padding:10px;
-    text-align:center;
-    font-size:16px;
-    outline:none;
-}
-
-button{
-    margin-top:15px;
-    padding:8px 20px;
-    background:white;
-    border:none;
-    cursor:pointer;
-    font-family:'Archivo Black';
-}
-
-#denied{
-    margin-top:15px;
-    color:red;
-    opacity:0;
-}
-
-/* -------- MAIN PAGE -------- */
-
+#accessScreen,
 #mainPage{
     position:absolute;
     inset:0;
@@ -71,12 +32,56 @@ button{
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    color:white;
+}
+
+/* ===== ACCESS SCREEN ===== */
+
+#accessScreen h1{
+    font-size:3vw;
+    margin-bottom:20px;
+    letter-spacing:3px;
+}
+
+input{
+    background:black;
+    border:1px solid white;
+    color:white;
+    padding:12px;
+    text-align:center;
+    font-size:16px;
+    outline:none;
+    width:220px;
+}
+
+button{
+    margin-top:15px;
+    padding:10px 25px;
+    background:white;
+    border:none;
+    cursor:pointer;
+    font-family:'Archivo Black';
+}
+
+button:hover{
+    background:#d9d9d9;
+}
+
+#denied{
+    margin-top:15px;
+    color:red;
+    opacity:0;
+    transition:opacity .3s;
+}
+
+/* ===== MAIN PAGE ===== */
+
+#mainPage{
     opacity:0;
     transition:opacity 1.5s ease;
 }
 
 .mainText{
-    color:white;
     font-size:6vw;
     letter-spacing:6px;
     text-align:center;
@@ -93,9 +98,9 @@ button{
     letter-spacing:2px;
 }
 
-/* Fade oscuro */
-.fade{
-    animation:fadeBlack 1s forwards;
+/* Fade animation */
+.fadeOut{
+    animation:fadeBlack .8s forwards;
 }
 
 @keyframes fadeBlack{
@@ -107,34 +112,46 @@ button{
 
 <body>
 
-<!-- ACCESS SCREEN -->
+<!-- ===== ACCESS SCREEN ===== -->
+
 <div id="accessScreen">
     <h1>Compromised Access</h1>
+
     <input type="text" id="codeInput" placeholder="ENTER CODE">
-    <br>
+
     <button onclick="checkCode()">ENTER</button>
+
     <div id="denied">Access Denied</div>
 </div>
 
-<!-- MAIN PAGE -->
+
+<!-- ===== MAIN PAGE ===== -->
+
 <div id="mainPage">
-    <div class="mainText">Live in the present, think about tomorrow</div>
+    <!-- 🔥 CAMBIA ESTE TEXTO CUANDO QUIERAS -->
+    <div class="mainText">
+        Live in the present, think about tomorrow
+    </div>
+
     <div class="footer-text">AfterHourz 2026</div>
 </div>
 
+
 <script>
 
-/* 🔥 CAMBIA SOLO ESTO PARA NUEVOS DROPS */
+/* ===================================================
+   🔥 CAMBIA SOLO ESTA LINEA PARA NUEVOS CODIGOS
+=================================================== */
 const ACCESS_CODE = "TEST123";
 
+
 function checkCode(){
-    const input = document.getElementById("codeInput").value;
+    const input = document.getElementById("codeInput").value.trim();
     const denied = document.getElementById("denied");
 
     if(input === ACCESS_CODE){
 
-        // fade acceso
-        document.getElementById("accessScreen").classList.add("fade");
+        document.getElementById("accessScreen").classList.add("fadeOut");
 
         setTimeout(()=>{
             document.getElementById("accessScreen").style.display="none";
@@ -146,10 +163,10 @@ function checkCode(){
     }
 }
 
-/* ENTER key */
+/* ENTER key support */
 document.getElementById("codeInput")
-.addEventListener("keypress",function(e){
-    if(e.key==="Enter"){
+.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
         checkCode();
     }
 });
