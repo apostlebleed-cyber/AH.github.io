@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 
 <style>
+
+/* RESET */
 *{
     margin:0;
     padding:0;
@@ -17,76 +19,89 @@
 
 body{
     background:black;
-    height:100vh;
-    font-family:'Archivo Black',sans-serif;
+    font-family:'Archivo Black', sans-serif;
     overflow:hidden;
 }
 
-/* ===== CENTER SCREENS ===== */
+/* ================= ACCESS SCREEN ================= */
 
-#accessScreen,
+#accessScreen{
+    position:fixed;
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    background:black;
+    z-index:2;
+}
+
+#accessScreen h1{
+    font-size:4vw;
+    letter-spacing:6px;
+    margin-bottom:40px;
+}
+
+/* INPUT */
+input{
+    background:transparent;
+    border:1px solid white;
+    color:white;
+    padding:15px;
+    width:260px;
+    text-align:center;
+    font-size:16px;
+    letter-spacing:2px;
+    outline:none;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+button{
+    padding:12px 30px;
+    border:none;
+    background:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#cfcfcf;
+}
+
+#message{
+    margin-top:15px;
+    color:red;
+    font-size:14px;
+    letter-spacing:2px;
+}
+
+/* ================= MAIN PAGE ================= */
+
 #mainPage{
-    position:absolute;
-    inset:0;
+    position:fixed;
+    width:100%;
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
     color:white;
-}
-
-/* ===== ACCESS SCREEN ===== */
-
-#accessScreen h1{
-    font-size:3vw;
-    margin-bottom:20px;
-    letter-spacing:3px;
-}
-
-input{
-    background:black;
-    border:1px solid white;
-    color:white;
-    padding:12px;
-    text-align:center;
-    font-size:16px;
-    outline:none;
-    width:220px;
-}
-
-button{
-    margin-top:15px;
-    padding:10px 25px;
-    background:white;
-    border:none;
-    cursor:pointer;
-    font-family:'Archivo Black';
-}
-
-button:hover{
-    background:#d9d9d9;
-}
-
-#denied{
-    margin-top:15px;
-    color:red;
     opacity:0;
-    transition:opacity .3s;
+    pointer-events:none;
+    transition:1s ease;
 }
 
-/* ===== MAIN PAGE ===== */
-
-#mainPage{
-    opacity:0;
-    transition:opacity 1.5s ease;
-}
-
-.mainText{
+#mainPage h1{
     font-size:6vw;
     letter-spacing:6px;
     text-align:center;
 }
 
+/* footer */
 .footer-text{
     position:fixed;
     bottom:20px;
@@ -98,22 +113,19 @@ button:hover{
     letter-spacing:2px;
 }
 
-/* Fade animation */
-.fadeOut{
-    animation:fadeBlack .8s forwards;
+/* permitir copiar y escribir */
+body,input,button,div{
+    user-select:text;
+    -webkit-user-select:text;
+    pointer-events:auto;
 }
 
-@keyframes fadeBlack{
-    from{opacity:1;}
-    to{opacity:0;}
-}
 </style>
 </head>
 
 <body>
 
-<!-- ===== ACCESS SCREEN ===== -->
-
+<!-- ACCESS -->
 <div id="accessScreen">
     <h1>Compromised Access</h1>
 
@@ -121,55 +133,57 @@ button:hover{
 
     <button onclick="checkCode()">ENTER</button>
 
-    <div id="denied">Access Denied</div>
+    <div id="message"></div>
 </div>
 
-
-<!-- ===== MAIN PAGE ===== -->
-
+<!-- MAIN PAGE -->
 <div id="mainPage">
     <!-- 🔥 CAMBIA ESTE TEXTO CUANDO QUIERAS -->
-    <div class="mainText">
-        Live in the present, think about tomorrow
-    </div>
+    <h1>Live in the present, think about tomorrow</h1>
 
     <div class="footer-text">AfterHourz 2026</div>
 </div>
 
-
 <script>
 
-/* ===================================================
-   🔥 CAMBIA SOLO ESTA LINEA PARA NUEVOS CODIGOS
-=================================================== */
+/* ================= EDITA SOLO ESTO ================= */
 const ACCESS_CODE = "TEST123";
-
+/* =================================================== */
 
 function checkCode(){
-    const input = document.getElementById("codeInput").value.trim();
-    const denied = document.getElementById("denied");
+
+    const input = document.getElementById("codeInput").value;
+    const message = document.getElementById("message");
 
     if(input === ACCESS_CODE){
 
-        document.getElementById("accessScreen").classList.add("fadeOut");
+        message.textContent = "";
+
+        const access = document.getElementById("accessScreen");
+        const main = document.getElementById("mainPage");
+
+        access.style.transition = "1s";
+        access.style.opacity = "0";
 
         setTimeout(()=>{
-            document.getElementById("accessScreen").style.display="none";
-            document.getElementById("mainPage").style.opacity="1";
-        },800);
+            access.style.display="none";
+            main.style.opacity="1";
+            main.style.pointerEvents="auto";
+        },1000);
 
-    } else {
-        denied.style.opacity="1";
+    }else{
+        message.textContent = "ACCESS DENIED";
     }
 }
 
 /* ENTER key support */
 document.getElementById("codeInput")
-.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
+.addEventListener("keypress",function(e){
+    if(e.key==="Enter"){
         checkCode();
     }
 });
+
 </script>
 
 </body>
