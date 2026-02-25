@@ -62,11 +62,6 @@ button{
     background:white;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#cfcfcf;
 }
 
 #message{
@@ -120,12 +115,6 @@ button:hover{
     letter-spacing:2px;
 }
 
-body,input,button,div{
-    user-select:text;
-    -webkit-user-select:text;
-    pointer-events:auto;
-}
-
 </style>
 </head>
 
@@ -134,7 +123,7 @@ body,input,button,div{
 <div id="accessScreen">
     <h1>Compromised Access</h1>
 
-    <input type="text" id="codeInput" placeholder="ENTER PASSWORD">
+    <input type="text" id="codeInput" placeholder="ENTER CODE">
 
     <button onclick="checkCode()">ENTER</button>
 
@@ -144,14 +133,23 @@ body,input,button,div{
 </div>
 
 <div id="mainPage">
-    <h1>Who's here?</h1>
-
+    <h1>Live in the present, think about tomorrow</h1>
     <div class="footer-text">AfterHourz 2026</div>
 </div>
 
 <script>
 
-const ACCESS_CODE = "AH888";
+const ACCESS_CODE = "TEST123";
+const STORAGE_KEY = "afterhourz_access";
+
+function unlockSite(){
+    const access = document.getElementById("accessScreen");
+    const main = document.getElementById("mainPage");
+
+    access.style.display="none";
+    main.style.opacity="1";
+    main.style.pointerEvents="auto";
+}
 
 function checkCode(){
 
@@ -160,22 +158,19 @@ function checkCode(){
 
     if(input === ACCESS_CODE){
 
-        message.textContent = "";
+        localStorage.setItem(STORAGE_KEY, ACCESS_CODE);
 
         const access = document.getElementById("accessScreen");
-        const main = document.getElementById("mainPage");
 
-        access.style.transition = "1s";
-        access.style.opacity = "0";
+        access.style.transition="1s";
+        access.style.opacity="0";
 
         setTimeout(()=>{
-            access.style.display="none";
-            main.style.opacity="1";
-            main.style.pointerEvents="auto";
+            unlockSite();
         },1000);
 
     }else{
-        message.textContent = "ACCESS DENIED";
+        message.textContent="ACCESS DENIED";
     }
 }
 
@@ -186,8 +181,17 @@ document.getElementById("codeInput")
     }
 });
 
+/* AUTO LOGIN IF ALREADY UNLOCKED */
+
+window.onload = function(){
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved === ACCESS_CODE){
+        unlockSite();
+    }
+};
+
 </script>
 
 </body>
 </html>
-
