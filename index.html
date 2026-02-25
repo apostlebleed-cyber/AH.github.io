@@ -10,7 +10,7 @@
 
 <style>
 
-/* RESET */
+
 *{
     margin:0;
     padding:0;
@@ -23,7 +23,7 @@ body{
     overflow:hidden;
 }
 
-/* ================= ACCESS SCREEN ================= */
+
 
 #accessScreen{
     position:fixed;
@@ -44,7 +44,7 @@ body{
     margin-bottom:40px;
 }
 
-/* INPUT */
+
 input{
     background:transparent;
     border:1px solid white;
@@ -58,7 +58,7 @@ input{
     margin-bottom:20px;
 }
 
-/* BUTTON */
+
 button{
     padding:12px 30px;
     border:none;
@@ -79,7 +79,7 @@ button:hover{
     letter-spacing:2px;
 }
 
-/* ================= MAIN PAGE ================= */
+
 
 #mainPage{
     position:fixed;
@@ -101,7 +101,7 @@ button:hover{
     text-align:center;
 }
 
-/* footer */
+
 .footer-text{
     position:fixed;
     bottom:20px;
@@ -113,7 +113,7 @@ button:hover{
     letter-spacing:2px;
 }
 
-/* permitir copiar y escribir */
+
 body,input,button,div{
     user-select:text;
     -webkit-user-select:text;
@@ -125,7 +125,7 @@ body,input,button,div{
 
 <body>
 
-<!-- ACCESS -->
+
 <div id="accessScreen">
     <h1>Compromised Access</h1>
 
@@ -136,9 +136,9 @@ body,input,button,div{
     <div id="message"></div>
 </div>
 
-<!-- MAIN PAGE -->
+
 <div id="mainPage">
-    <!-- 🔥 CAMBIA ESTE TEXTO CUANDO QUIERAS -->
+   
     <h1>Live in the present, think about tomorrow</h1>
 
     <div class="footer-text">AfterHourz 2026</div>
@@ -146,9 +146,9 @@ body,input,button,div{
 
 <script>
 
-/* ================= EDITA SOLO ESTO ================= */
+
 const ACCESS_CODE = "TEST123";
-/* =================================================== */
+
 
 function checkCode(){
 
@@ -176,7 +176,7 @@ function checkCode(){
     }
 }
 
-/* ENTER key support */
+
 document.getElementById("codeInput")
 .addEventListener("keypress",function(e){
     if(e.key==="Enter"){
@@ -188,4 +188,5 @@ document.getElementById("codeInput")
 
 </body>
 </html>
+
 
