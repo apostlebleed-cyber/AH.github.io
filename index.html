@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -98,10 +99,21 @@ button{
     transition:1s ease;
 }
 
-#mainPage h1{
+/* TEXT MODE */
+
+#mainText{
     font-size:6vw;
     letter-spacing:6px;
     text-align:center;
+}
+
+/* IMAGE MODE */
+
+#mainImage{
+    display:none;
+    max-width:70%;
+    max-height:70%;
+    object-fit:contain;
 }
 
 .footer-text{
@@ -124,7 +136,6 @@ button{
     <h1>Compromised Access</h1>
 
     <input type="text" id="codeInput" placeholder="ENTER PASSWORD">
-
     <button onclick="checkCode()">ENTER</button>
 
     <div id="message"></div>
@@ -133,14 +144,27 @@ button{
 </div>
 
 <div id="mainPage">
-    <h1>We'll be back soon...</h1>
+
+    <h1 id="mainText">We'll be back soon...</h1>
+
+    <img id="mainImage" src="">
+
     <div class="footer-text">AFTERHOURZ 2026</div>
+
 </div>
 
 <script>
 
 const ACCESS_CODE = "ACCS777";
 const STORAGE_KEY = "afterhourz_access";
+
+/* CAMBIAR CONTENIDO AQUI */
+
+const USE_IMAGE = true; 
+const IMAGE_FILE = "AFTERHOURZ (12).jpg";
+const TEXT_MESSAGE = "We'll be back soon...";
+
+/* --------------------------- */
 
 function unlockSite(){
     const access = document.getElementById("accessScreen");
@@ -149,6 +173,24 @@ function unlockSite(){
     access.style.display="none";
     main.style.opacity="1";
     main.style.pointerEvents="auto";
+
+    applyContent();
+}
+
+function applyContent(){
+
+    const text = document.getElementById("mainText");
+    const image = document.getElementById("mainImage");
+
+    if(USE_IMAGE){
+        text.style.display="none";
+        image.style.display="block";
+        image.src = IMAGE_FILE;
+    }else{
+        image.style.display="none";
+        text.style.display="block";
+        text.textContent = TEXT_MESSAGE;
+    }
 }
 
 function checkCode(){
@@ -181,8 +223,6 @@ document.getElementById("codeInput")
     }
 });
 
-/* AUTO LOGIN IF ALREADY UNLOCKED */
-
 window.onload = function(){
     const saved = localStorage.getItem(STORAGE_KEY);
 
@@ -195,30 +235,4 @@ window.onload = function(){
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
