@@ -120,8 +120,6 @@ button{
     display:none;
 }
 
-/* FOOTER */
-
 .footer-text{
     position:fixed;
     bottom:20px;
@@ -166,20 +164,22 @@ button{
 const ACCESS_CODE = "ABS44JS";
 const STORAGE_KEY = "afterhourz_access";
 
-/* CONTROLES */
+/* CAMBIAR CONTENIDO */
 
-const USE_IMAGE = false;
+const USE_IMAGE = false; 
 const IMAGE_FILE = "AFTERHOURZ (12).jpg";
-const TEXT_MESSAGE = "Hello.";
+const TEXT_MESSAGE = "Hi.";
 
 /* COUNTDOWN CONTROL */
 
 const USE_COUNTDOWN = true;
 
-/* FECHA OBJETIVO (AÑO, MES-1, DIA, HORA, MINUTO, SEGUNDO) */
-const COUNTDOWN_DATE = new Date(2026, 2, 28, 18, 1, 0);
+/* SOLO CAMBIAS SEGUNDOS */
+const COUNTDOWN_SECONDS = 3600;
 
-/* ---------------- */
+/* --------------------------- */
+
+let countdownInterval;
 
 function unlockSite(){
     const access = document.getElementById("accessScreen");
@@ -208,37 +208,39 @@ function applyContent(){
     }
 
     if(USE_COUNTDOWN){
-        startCountdown();
+        startCountdown(COUNTDOWN_SECONDS);
     }
 }
 
-function startCountdown(){
+function startCountdown(seconds){
 
     const countdown = document.getElementById("countdown");
     countdown.style.display="block";
 
+    let remaining = seconds;
+
     function update(){
 
-        const now = new Date().getTime();
-        const distance = COUNTDOWN_DATE.getTime() - now;
-
-        if(distance <= 0){
-            countdown.textContent = "00:00:00";
+        if(remaining <= 0){
+            countdown.textContent="00:00:00";
+            clearInterval(countdownInterval);
             return;
         }
 
-        const hours = Math.floor(distance / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
-        const seconds = Math.floor((distance % (1000*60))/1000);
+        const hours = Math.floor(remaining/3600);
+        const minutes = Math.floor((remaining%3600)/60);
+        const secs = remaining%60;
 
         countdown.textContent =
             String(hours).padStart(2,'0') + ":" +
             String(minutes).padStart(2,'0') + ":" +
-            String(seconds).padStart(2,'0');
+            String(secs).padStart(2,'0');
+
+        remaining--;
     }
 
     update();
-    setInterval(update,1000);
+    countdownInterval=setInterval(update,1000);
 }
 
 function checkCode(){
@@ -255,7 +257,9 @@ function checkCode(){
         access.style.transition="1s";
         access.style.opacity="0";
 
-        setTimeout(()=>unlockSite(),1000);
+        setTimeout(()=>{
+            unlockSite();
+        },1000);
 
     }else{
         message.textContent="ACCESS DENIED";
@@ -269,9 +273,9 @@ document.getElementById("codeInput")
     }
 });
 
-window.onload = function(){
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved === ACCESS_CODE){
+window.onload=function(){
+    const saved=localStorage.getItem(STORAGE_KEY);
+    if(saved===ACCESS_CODE){
         unlockSite();
     }
 };
