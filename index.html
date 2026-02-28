@@ -178,16 +178,13 @@ const TEXT_MESSAGE = "Hi.";
 /* COUNTDOWN CONTROL */
 
 const ENABLE_COUNTDOWN = true;
-const COUNTDOWN_SECONDS = 3600;
 
-/* CAMBIA ESTE NUMERO CUANDO CAMBIES LOS SEGUNDOS */
-const COUNTDOWN_VERSION = 2;
+/* 🔥 SOLO CAMBIA ESTA FECHA PARA EL NUEVO COUNTDOWN */
+/* Año, Mes(0-11), Día, Hora, Minuto, Segundo */
+
+const GLOBAL_END_DATE = new Date(2026, 2, 28, 18, 0, 0).getTime();
 
 /* ------------------- */
-
-const GLOBAL_TIMER_KEY = "afterhourz_global_timer";
-
-/* ACCESS */
 
 function unlockSite(){
 const access=document.getElementById("accessScreen");
@@ -247,28 +244,7 @@ document.getElementById("codeInput")
 if(e.key==="Enter") checkCode();
 });
 
-/* COUNTDOWN GLOBAL */
-
-function getGlobalEndTime(){
-
-let saved=JSON.parse(localStorage.getItem(GLOBAL_TIMER_KEY));
-
-if(!saved || saved.version!==COUNTDOWN_VERSION){
-
-const end=Date.now()+(COUNTDOWN_SECONDS*1000);
-
-saved={
-version:COUNTDOWN_VERSION,
-endTime:end
-};
-
-localStorage.setItem(GLOBAL_TIMER_KEY,JSON.stringify(saved));
-
-return end;
-}
-
-return saved.endTime;
-}
+/* COUNTDOWN GLOBAL REAL */
 
 function formatTime(sec){
 
@@ -285,14 +261,16 @@ return h+":"+m+":"+s;
 
 function startCountdown(){
 
-const END=getGlobalEndTime();
 const el=document.getElementById("countdown");
 
 setInterval(()=>{
 
-let remaining=Math.floor((END-Date.now())/1000);
+let remaining=Math.floor((GLOBAL_END_DATE-Date.now())/1000);
 
-if(remaining<0) remaining=0;
+if(remaining<=0){
+el.textContent="00:00:00";
+return;
+}
 
 el.textContent=formatTime(remaining);
 
@@ -315,4 +293,3 @@ unlockSite();
 
 </body>
 </html>
-
