@@ -11,124 +11,127 @@
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    background:black;
-    font-family:'Archivo Black', sans-serif;
-    overflow:hidden;
+background:black;
+font-family:'Archivo Black', sans-serif;
+overflow:hidden;
 }
 
 /* ACCESS SCREEN */
 
 #accessScreen{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    background:black;
-    z-index:2;
+position:fixed;
+width:100%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+background:black;
+z-index:2;
 }
 
 #accessScreen h1{
-    font-size:4vw;
-    letter-spacing:6px;
-    margin-bottom:40px;
+font-size:4vw;
+letter-spacing:6px;
+margin-bottom:40px;
 }
 
 input{
-    background:transparent;
-    border:1px solid white;
-    color:white;
-    padding:15px;
-    width:260px;
-    text-align:center;
-    font-size:16px;
-    letter-spacing:2px;
-    outline:none;
-    margin-bottom:20px;
+background:transparent;
+border:1px solid white;
+color:white;
+padding:15px;
+width:260px;
+text-align:center;
+font-size:16px;
+letter-spacing:2px;
+outline:none;
+margin-bottom:20px;
 }
 
 button{
-    padding:12px 30px;
-    border:none;
-    background:white;
-    font-weight:bold;
-    cursor:pointer;
+padding:12px 30px;
+border:none;
+background:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 #message{
-    margin-top:15px;
-    color:red;
-    font-size:14px;
-    letter-spacing:2px;
+margin-top:15px;
+color:red;
+font-size:14px;
+letter-spacing:2px;
 }
 
 .access-footer{
-    position:fixed;
-    bottom:20px;
-    width:100%;
-    text-align:center;
-    color:white;
-    font-family:"Times New Roman", Times, serif;
-    font-size:20px;
-    letter-spacing:2px;
+position:fixed;
+bottom:20px;
+width:100%;
+text-align:center;
+color:white;
+font-family:"Times New Roman", Times, serif;
+font-size:20px;
+letter-spacing:2px;
 }
 
 /* MAIN PAGE */
 
 #mainPage{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    color:white;
-    opacity:0;
-    pointer-events:none;
-    transition:1s ease;
+position:fixed;
+width:100%;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:white;
+opacity:0;
+pointer-events:none;
+transition:1s ease;
 }
+
+/* TEXT */
 
 #mainText{
-    font-size:6vw;
-    letter-spacing:6px;
-    text-align:center;
+font-size:6vw;
+letter-spacing:6px;
+text-align:center;
 }
 
+/* IMAGE */
+
 #mainImage{
-    display:none;
-    max-width:70%;
-    max-height:70%;
-    object-fit:contain;
+display:none;
+max-width:70%;
+max-height:70%;
+object-fit:contain;
 }
 
 /* COUNTDOWN */
 
 #countdown{
-    margin-top:25px;
-    font-size:2vw;
-    letter-spacing:4px;
-    display:none;
+margin-top:20px;
+font-size:3vw;
+letter-spacing:4px;
 }
 
 .footer-text{
-    position:fixed;
-    bottom:20px;
-    width:100%;
-    text-align:center;
-    color:white;
-    font-family:"Times New Roman", Times, serif;
-    font-size:20px;
-    letter-spacing:2px;
+position:fixed;
+bottom:20px;
+width:100%;
+text-align:center;
+color:white;
+font-family:"Times New Roman", Times, serif;
+font-size:20px;
+letter-spacing:2px;
 }
 
 </style>
@@ -137,25 +140,25 @@ button{
 <body>
 
 <div id="accessScreen">
-    <h1>Compromised Access</h1>
+<h1>Compromised Access</h1>
 
-    <input type="text" id="codeInput" placeholder="ENTER PASSWORD">
-    <button onclick="checkCode()">ENTER</button>
+<input type="text" id="codeInput" placeholder="ENTER PASSWORD">
+<button onclick="checkCode()">ENTER</button>
 
-    <div id="message"></div>
+<div id="message"></div>
 
-    <div class="access-footer">AFTERHOURZ 2026</div>
+<div class="access-footer">AFTERHOURZ 2026</div>
 </div>
 
 <div id="mainPage">
 
-    <h1 id="mainText">We'll be back soon...</h1>
+<h1 id="mainText">We'll be back soon...</h1>
 
-    <img id="mainImage" src="">
+<div id="countdown"></div>
 
-    <div id="countdown">00:00:00</div>
+<img id="mainImage" src="">
 
-    <div class="footer-text">AFTERHOURZ 2026</div>
+<div class="footer-text">AFTERHOURZ 2026</div>
 
 </div>
 
@@ -164,120 +167,130 @@ button{
 const ACCESS_CODE = "ABS44JS";
 const STORAGE_KEY = "afterhourz_access";
 
-/* CAMBIAR CONTENIDO */
+/* CAMBIAR TODO AQUI */
 
-const USE_IMAGE = false; 
+const USE_IMAGE = false;
 const IMAGE_FILE = "AFTERHOURZ (12).jpg";
 const TEXT_MESSAGE = "Hi.";
 
 /* COUNTDOWN CONTROL */
 
-const USE_COUNTDOWN = true;
+const ENABLE_COUNTDOWN = true;   // true = mostrar | false = ocultar
+const COUNTDOWN_SECONDS = 3600;  // solo cambias segundos
 
-/* SOLO CAMBIAS SEGUNDOS */
-const COUNTDOWN_SECONDS = 3600;
+/* ------------------- */
 
-/* --------------------------- */
+const GLOBAL_TIMER_KEY = "afterhourz_global_end";
 
-let countdownInterval;
+/* ACCESS */
 
 function unlockSite(){
-    const access = document.getElementById("accessScreen");
-    const main = document.getElementById("mainPage");
+const access=document.getElementById("accessScreen");
+const main=document.getElementById("mainPage");
 
-    access.style.display="none";
-    main.style.opacity="1";
-    main.style.pointerEvents="auto";
+access.style.display="none";
+main.style.opacity="1";
+main.style.pointerEvents="auto";
 
-    applyContent();
+applyContent();
+if(ENABLE_COUNTDOWN) startCountdown();
+else document.getElementById("countdown").style.display="none";
 }
 
 function applyContent(){
 
-    const text = document.getElementById("mainText");
-    const image = document.getElementById("mainImage");
+const text=document.getElementById("mainText");
+const image=document.getElementById("mainImage");
 
-    if(USE_IMAGE){
-        text.style.display="none";
-        image.style.display="block";
-        image.src = IMAGE_FILE;
-    }else{
-        image.style.display="none";
-        text.style.display="block";
-        text.textContent = TEXT_MESSAGE;
-    }
-
-    if(USE_COUNTDOWN){
-        startCountdown(COUNTDOWN_SECONDS);
-    }
+if(USE_IMAGE){
+text.style.display="none";
+image.style.display="block";
+image.src=IMAGE_FILE;
+}else{
+image.style.display="none";
+text.style.display="block";
+text.textContent=TEXT_MESSAGE;
 }
-
-function startCountdown(seconds){
-
-    const countdown = document.getElementById("countdown");
-    countdown.style.display="block";
-
-    let remaining = seconds;
-
-    function update(){
-
-        if(remaining <= 0){
-            countdown.textContent="00:00:00";
-            clearInterval(countdownInterval);
-            return;
-        }
-
-        const hours = Math.floor(remaining/3600);
-        const minutes = Math.floor((remaining%3600)/60);
-        const secs = remaining%60;
-
-        countdown.textContent =
-            String(hours).padStart(2,'0') + ":" +
-            String(minutes).padStart(2,'0') + ":" +
-            String(secs).padStart(2,'0');
-
-        remaining--;
-    }
-
-    update();
-    countdownInterval=setInterval(update,1000);
 }
 
 function checkCode(){
 
-    const input = document.getElementById("codeInput").value;
-    const message = document.getElementById("message");
+const input=document.getElementById("codeInput").value;
+const message=document.getElementById("message");
 
-    if(input === ACCESS_CODE){
+if(input===ACCESS_CODE){
 
-        localStorage.setItem(STORAGE_KEY, ACCESS_CODE);
+localStorage.setItem(STORAGE_KEY,ACCESS_CODE);
 
-        const access = document.getElementById("accessScreen");
+const access=document.getElementById("accessScreen");
+access.style.transition="1s";
+access.style.opacity="0";
 
-        access.style.transition="1s";
-        access.style.opacity="0";
+setTimeout(()=>{unlockSite();},1000);
 
-        setTimeout(()=>{
-            unlockSite();
-        },1000);
-
-    }else{
-        message.textContent="ACCESS DENIED";
-    }
+}else{
+message.textContent="ACCESS DENIED";
+}
 }
 
 document.getElementById("codeInput")
 .addEventListener("keypress",function(e){
-    if(e.key==="Enter"){
-        checkCode();
-    }
+if(e.key==="Enter") checkCode();
 });
 
+/* COUNTDOWN GLOBAL */
+
+function getGlobalEndTime(){
+
+let saved=localStorage.getItem(GLOBAL_TIMER_KEY);
+
+if(!saved){
+const end=Date.now()+(COUNTDOWN_SECONDS*1000);
+localStorage.setItem(GLOBAL_TIMER_KEY,end);
+return end;
+}
+
+return parseInt(saved);
+}
+
+function formatTime(sec){
+
+let h=Math.floor(sec/3600);
+let m=Math.floor((sec%3600)/60);
+let s=sec%60;
+
+h=String(h).padStart(2,"0");
+m=String(m).padStart(2,"0");
+s=String(s).padStart(2,"0");
+
+return h+":"+m+":"+s;
+}
+
+function startCountdown(){
+
+const END=getGlobalEndTime();
+const el=document.getElementById("countdown");
+
+setInterval(()=>{
+
+let remaining=Math.floor((END-Date.now())/1000);
+if(remaining<0) remaining=0;
+
+el.textContent=formatTime(remaining);
+
+},1000);
+}
+
+/* AUTO LOGIN */
+
 window.onload=function(){
-    const saved=localStorage.getItem(STORAGE_KEY);
-    if(saved===ACCESS_CODE){
-        unlockSite();
-    }
+
+const saved=localStorage.getItem(STORAGE_KEY);
+
+if(saved===ACCESS_CODE){
+unlockSite();
+}
+
 };
 
 </script>
