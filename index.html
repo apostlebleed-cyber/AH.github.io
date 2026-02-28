@@ -123,6 +123,8 @@ font-size:3vw;
 letter-spacing:4px;
 }
 
+/* FOOTER */
+
 .footer-text{
 position:fixed;
 bottom:20px;
@@ -175,12 +177,15 @@ const TEXT_MESSAGE = "Hi.";
 
 /* COUNTDOWN CONTROL */
 
-const ENABLE_COUNTDOWN = true;   // true = mostrar | false = ocultar
-const COUNTDOWN_SECONDS = 25200;  // solo cambias segundos
+const ENABLE_COUNTDOWN = true;
+const COUNTDOWN_SECONDS = 25200;
+
+/* CAMBIA ESTE NUMERO CUANDO CAMBIES LOS SEGUNDOS */
+const COUNTDOWN_VERSION = 1;
 
 /* ------------------- */
 
-const GLOBAL_TIMER_KEY = "afterhourz_global_end";
+const GLOBAL_TIMER_KEY = "afterhourz_global_timer";
 
 /* ACCESS */
 
@@ -193,8 +198,12 @@ main.style.opacity="1";
 main.style.pointerEvents="auto";
 
 applyContent();
-if(ENABLE_COUNTDOWN) startCountdown();
-else document.getElementById("countdown").style.display="none";
+
+if(ENABLE_COUNTDOWN){
+startCountdown();
+}else{
+document.getElementById("countdown").style.display="none";
+}
 }
 
 function applyContent(){
@@ -242,15 +251,23 @@ if(e.key==="Enter") checkCode();
 
 function getGlobalEndTime(){
 
-let saved=localStorage.getItem(GLOBAL_TIMER_KEY);
+let saved=JSON.parse(localStorage.getItem(GLOBAL_TIMER_KEY));
 
-if(!saved){
+if(!saved || saved.version!==COUNTDOWN_VERSION){
+
 const end=Date.now()+(COUNTDOWN_SECONDS*1000);
-localStorage.setItem(GLOBAL_TIMER_KEY,end);
+
+saved={
+version:COUNTDOWN_VERSION,
+endTime:end
+};
+
+localStorage.setItem(GLOBAL_TIMER_KEY,JSON.stringify(saved));
+
 return end;
 }
 
-return parseInt(saved);
+return saved.endTime;
 }
 
 function formatTime(sec){
@@ -274,6 +291,7 @@ const el=document.getElementById("countdown");
 setInterval(()=>{
 
 let remaining=Math.floor((END-Date.now())/1000);
+
 if(remaining<0) remaining=0;
 
 el.textContent=formatTime(remaining);
@@ -297,6 +315,3 @@ unlockSite();
 
 </body>
 </html>
-
-
-
