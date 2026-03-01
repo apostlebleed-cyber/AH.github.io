@@ -136,6 +136,38 @@ font-size:20px;
 letter-spacing:2px;
 }
 
+/* ===== GLITCH EVENT ===== */
+
+#glitchOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+opacity:0;
+z-index:9999;
+background:
+repeating-linear-gradient(
+0deg,
+rgba(255,255,255,0.05) 0px,
+rgba(255,255,255,0.05) 2px,
+transparent 2px,
+transparent 4px
+);
+mix-blend-mode:overlay;
+}
+
+.glitch-active{
+animation:glitchFlash 0.15s infinite;
+}
+
+@keyframes glitchFlash{
+0%{opacity:0;}
+50%{opacity:1;}
+100%{opacity:0;}
+}
+
 </style>
 </head>
 
@@ -164,6 +196,8 @@ letter-spacing:2px;
 
 </div>
 
+<div id="glitchOverlay"></div>
+
 <script>
 
 const ACCESS_CODE = "ABS44JS";
@@ -180,9 +214,11 @@ const TEXT_MESSAGE = "Hi.";
 const ENABLE_COUNTDOWN = true;
 
 /* 🔥 SOLO CAMBIA ESTA FECHA PARA EL NUEVO COUNTDOWN */
-/* Año, Mes(0-11), Día, Hora, Minuto, Segundo */
-
 const GLOBAL_END_DATE = new Date(2026, 2, 1, 2, 0, 0).getTime();
+
+/* EVENTO GLITCH */
+
+const GLITCH_EVENT = true;
 
 /* ------------------- */
 
@@ -200,6 +236,10 @@ if(ENABLE_COUNTDOWN){
 startCountdown();
 }else{
 document.getElementById("countdown").style.display="none";
+}
+
+if(GLITCH_EVENT){
+startGlitchEvent();
 }
 }
 
@@ -277,6 +317,34 @@ el.textContent=formatTime(remaining);
 },1000);
 }
 
+/* ===== GLITCH SYSTEM ===== */
+
+let glitchInterval;
+
+function randomGlitch(){
+
+if(!GLITCH_EVENT) return;
+
+const overlay=document.getElementById("glitchOverlay");
+
+overlay.classList.add("glitch-active");
+
+document.body.style.transform =
+"translate("+(Math.random()*8-4)+"px,"+(Math.random()*8-4)+"px)";
+
+setTimeout(()=>{
+overlay.classList.remove("glitch-active");
+document.body.style.transform="translate(0,0)";
+},120+Math.random()*200);
+}
+
+function startGlitchEvent(){
+
+glitchInterval=setInterval(()=>{
+randomGlitch();
+},2000+Math.random()*4000);
+}
+
 /* AUTO LOGIN */
 
 window.onload=function(){
@@ -293,5 +361,3 @@ unlockSite();
 
 </body>
 </html>
-
-
