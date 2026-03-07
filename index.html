@@ -209,15 +209,14 @@ const USE_IMAGE = false;
 const IMAGE_FILE = "crowns8989.png";
 const TEXT_MESSAGE = "ABS444BLDCR";
 
-/* FULL SCREEN IMAGE */
+/* FULLSCREEN IMAGE CONTROL */
 
 const FULLSCREENIMAGE = true;
-const FULLSCREEN_FILE = "afterhourzgallery.png;
+const FULLSCREEN_FILE = "afterhourzgallery.png";
 
 /* COUNTDOWN CONTROL */
 
-const ENABLE_COUNTDOWN = false;
-
+const ENABLE_COUNTDOWN = true;
 
 const GLOBAL_END_DATE = Date.UTC(2026, 2, 3, 5, 0, 0);
 
@@ -228,6 +227,7 @@ const GLITCH_EVENT = false;
 /* ------------------- */
 
 function unlockSite(){
+
 const access=document.getElementById("accessScreen");
 const main=document.getElementById("mainPage");
 
@@ -247,9 +247,10 @@ if(GLITCH_EVENT){
 startGlitchEvent();
 }
 
-/* NUEVA FUNCION */
+/* activar imagen fullscreen si está habilitada */
 
 activateFullscreenImage();
+
 }
 
 function applyContent(){
@@ -266,9 +267,10 @@ image.style.display="none";
 text.style.display="block";
 text.textContent=TEXT_MESSAGE;
 }
+
 }
 
-/* NUEVA FUNCION FULLSCREEN */
+/* ===== FULLSCREEN IMAGE SYSTEM ===== */
 
 function activateFullscreenImage(){
 
@@ -278,15 +280,16 @@ const img=document.createElement("img");
 
 img.src=FULLSCREEN_FILE;
 
-img.style.position="fixed";
+img.style.position="absolute";
 img.style.top="0";
 img.style.left="0";
-img.style.width="100vw";
-img.style.height="100vh";
+img.style.width="100%";
+img.style.height="100%";
 img.style.objectFit="cover";
-img.style.zIndex="5";
+img.style.zIndex="-1";
+img.style.pointerEvents="none";
 
-document.body.appendChild(img);
+document.getElementById("mainPage").appendChild(img);
 
 }
 
@@ -308,6 +311,7 @@ setTimeout(()=>{unlockSite();},1000);
 }else{
 message.textContent="ACCESS DENIED";
 }
+
 }
 
 document.getElementById("codeInput")
@@ -328,6 +332,7 @@ m=String(m).padStart(2,"0");
 s=String(s).padStart(2,"0");
 
 return h+":"+m+":"+s;
+
 }
 
 function startCountdown(){
@@ -346,6 +351,7 @@ return;
 el.textContent=formatTime(remaining);
 
 },1000);
+
 }
 
 /* ===== GLITCH SYSTEM ===== */
@@ -367,6 +373,7 @@ setTimeout(()=>{
 overlay.classList.remove("glitch-active");
 document.body.style.transform="translate(0,0)";
 },120+Math.random()*200);
+
 }
 
 function startGlitchEvent(){
@@ -374,6 +381,7 @@ function startGlitchEvent(){
 glitchInterval=setInterval(()=>{
 randomGlitch();
 },2000+Math.random()*4000);
+
 }
 
 /* AUTO LOGIN */
