@@ -168,6 +168,32 @@ animation:glitchFlash 0.15s infinite;
 100%{opacity:0;}
 }
 
+/* ===== GLOBAL LIKE SYSTEM ===== */
+
+#likeSystem{
+position:fixed;
+bottom:80px;
+width:100%;
+text-align:center;
+color:white;
+z-index:5;
+}
+
+#likeButton{
+padding:12px 30px;
+border:none;
+background:white;
+font-weight:bold;
+cursor:pointer;
+letter-spacing:2px;
+}
+
+#likeCounter{
+margin-top:10px;
+font-size:20px;
+letter-spacing:3px;
+}
+
 </style>
 </head>
 
@@ -196,7 +222,22 @@ animation:glitchFlash 0.15s infinite;
 
 </div>
 
+<!-- LIKE SYSTEM (AGREGADO) -->
+
+<div id="likeSystem">
+
+<button id="likeButton">JOIN THE SIGNAL</button>
+
+<div id="likeCounter">0</div>
+
+</div>
+
 <div id="glitchOverlay"></div>
+
+<!-- FIREBASE (AGREGADO) -->
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
 
@@ -224,6 +265,10 @@ const GLOBAL_END_DATE = Date.UTC(2026, 2, 3, 5, 0, 0);
 
 const GLITCH_EVENT = false;
 
+/* GLOBAL LIKE SYSTEM */
+
+const ENABLE_LIKE_SYSTEM = true;
+
 /* ------------------- */
 
 function unlockSite(){
@@ -246,8 +291,6 @@ document.getElementById("countdown").style.display="none";
 if(GLITCH_EVENT){
 startGlitchEvent();
 }
-
-/* activar imagen fullscreen si está habilitada */
 
 activateFullscreenImage();
 
@@ -396,12 +439,53 @@ unlockSite();
 
 };
 
+/* ===== GLOBAL LIKE SYSTEM SCRIPT ===== */
+
+if(ENABLE_LIKE_SYSTEM){
+
+const firebaseConfig = {
+apiKey: "YOUR_API_KEY",
+authDomain: "YOUR_PROJECT.firebaseapp.com",
+databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+projectId: "YOUR_PROJECT",
+storageBucket: "YOUR_PROJECT.appspot.com",
+messagingSenderId: "ID",
+appId: "APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+const likeRef = db.ref("afterhourz_likes");
+
+const likeButton = document.getElementById("likeButton");
+const likeCounter = document.getElementById("likeCounter");
+
+likeRef.on("value",(snapshot)=>{
+likeCounter.textContent = snapshot.val() || 0;
+});
+
+likeButton.onclick=function(){
+
+if(localStorage.getItem("afterhourz_liked")) return;
+
+likeRef.transaction((current)=>{
+return (current || 0) + 1;
+});
+
+localStorage.setItem("afterhourz_liked",true);
+
+likeButton.disabled=true;
+
+};
+
+}else{
+
+document.getElementById("likeSystem").style.display="none";
+
+}
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
