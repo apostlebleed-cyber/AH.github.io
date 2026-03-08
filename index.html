@@ -439,9 +439,12 @@ unlockSite();
 
 };
 
+
 /* ===== GLOBAL LIKE SYSTEM SCRIPT ===== */
 
 if(ENABLE_LIKE_SYSTEM){
+
+try{
 
 const firebaseConfig = {
 apiKey: "YOUR_API_KEY",
@@ -453,7 +456,11 @@ messagingSenderId: "ID",
 appId: "APP_ID"
 };
 
+/* INIT FIREBASE */
+
+if(!firebase.apps.length){
 firebase.initializeApp(firebaseConfig);
+}
 
 const db = firebase.database();
 const likeRef = db.ref("afterhourz_likes");
@@ -461,23 +468,51 @@ const likeRef = db.ref("afterhourz_likes");
 const likeButton = document.getElementById("likeButton");
 const likeCounter = document.getElementById("likeCounter");
 
-likeRef.on("value",(snapshot)=>{
-likeCounter.textContent = snapshot.val() || 0;
+/* CREAR CONTADOR SI NO EXISTE */
+
+likeRef.once("value").then(function(snapshot){
+
+if(snapshot.val() === null){
+likeRef.set(0);
+}
+
 });
 
-likeButton.onclick=function(){
+/* ACTUALIZAR CONTADOR EN TIEMPO REAL */
+
+likeRef.on("value", function(snapshot){
+
+likeCounter.textContent = snapshot.val() || 0;
+
+});
+
+/* CLICK */
+
+likeButton.onclick = function(){
 
 if(localStorage.getItem("afterhourz_liked")) return;
 
-likeRef.transaction((current)=>{
+likeRef.transaction(function(current){
+
 return (current || 0) + 1;
+
 });
 
-localStorage.setItem("afterhourz_liked",true);
+localStorage.setItem("afterhourz_liked", true);
 
-likeButton.disabled=true;
+likeButton.disabled = true;
 
 };
+
+if(localStorage.getItem("afterhourz_liked")){
+likeButton.disabled = true;
+}
+
+}catch(e){
+
+console.log("LIKE SYSTEM ERROR:", e);
+
+}
 
 }else{
 
@@ -489,5 +524,6 @@ document.getElementById("likeSystem").style.display="none";
 
 </body>
 </html>
+
 
 
