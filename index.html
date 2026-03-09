@@ -234,8 +234,6 @@ letter-spacing:3px;
 
 <div id="glitchOverlay"></div>
 
-<!-- FIREBASE (AGREGADO) -->
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -248,12 +246,17 @@ const STORAGE_KEY = "afterhourz_access";
 
 const USE_IMAGE = false;
 const IMAGE_FILE = "crowns8989.png";
-const TEXT_MESSAGE = "82NAKFN4";
+const TEXT_MESSAGE = "";
 
 /* FULLSCREEN IMAGE CONTROL */
 
-const FULLSCREENIMAGE = true;
+const FULLSCREENIMAGE = false;
 const FULLSCREEN_FILE = "afterhourzgallery.png";
+
+/* ===== NUEVO SISTEMA VIDEO FULLSCREEN ===== */
+
+const ENABLE_FULLSCREEN_VIDEO = true;
+const VIDEO_FILE = "video.mp4";
 
 /* COUNTDOWN CONTROL */
 
@@ -293,6 +296,7 @@ startGlitchEvent();
 }
 
 activateFullscreenImage();
+activateFullscreenVideo();
 
 }
 
@@ -333,6 +337,34 @@ img.style.zIndex="-1";
 img.style.pointerEvents="none";
 
 document.getElementById("mainPage").appendChild(img);
+
+}
+
+/* ===== NUEVA FUNCION VIDEO FULLSCREEN ===== */
+
+function activateFullscreenVideo(){
+
+if(!ENABLE_FULLSCREEN_VIDEO) return;
+
+const video=document.createElement("video");
+
+video.src=VIDEO_FILE;
+
+video.autoplay=true;
+video.loop=true;
+video.muted=true;
+video.playsInline=true;
+
+video.style.position="absolute";
+video.style.top="0";
+video.style.left="0";
+video.style.width="100%";
+video.style.height="100%";
+video.style.objectFit="cover";
+video.style.zIndex="-2";
+video.style.pointerEvents="none";
+
+document.getElementById("mainPage").appendChild(video);
 
 }
 
@@ -456,8 +488,6 @@ messagingSenderId: "ID",
 appId: "APP_ID"
 };
 
-/* INIT FIREBASE */
-
 if(!firebase.apps.length){
 firebase.initializeApp(firebaseConfig);
 }
@@ -468,8 +498,6 @@ const likeRef = db.ref("afterhourz_likes");
 const likeButton = document.getElementById("likeButton");
 const likeCounter = document.getElementById("likeCounter");
 
-/* CREAR CONTADOR SI NO EXISTE */
-
 likeRef.once("value").then(function(snapshot){
 
 if(snapshot.val() === null){
@@ -478,15 +506,11 @@ likeRef.set(0);
 
 });
 
-/* ACTUALIZAR CONTADOR EN TIEMPO REAL */
-
 likeRef.on("value", function(snapshot){
 
 likeCounter.textContent = snapshot.val() || 0;
 
 });
-
-/* CLICK */
 
 likeButton.onclick = function(){
 
@@ -524,9 +548,3 @@ document.getElementById("likeSystem").style.display="none";
 
 </body>
 </html>
-
-
-
-
-
-
