@@ -222,8 +222,6 @@ letter-spacing:3px;
 
 </div>
 
-<!-- LIKE SYSTEM (AGREGADO) -->
-
 <div id="likeSystem">
 
 <button id="likeButton">JOIN THE SIGNAL</button>
@@ -257,6 +255,11 @@ const FULLSCREEN_FILE = "afterhourzgallery.png";
 
 const ENABLE_FULLSCREEN_VIDEO = true;
 const VIDEO_FILE = "afterhourzvideo.mp4.mp4";
+
+/* ===== NUEVO SISTEMA MUSICA ===== */
+
+const ENABLE_BACKGROUND_MUSIC = true;
+const MUSIC_FILE = "Augxst - Milan (Lyrics) - AUGXST 777.mp3";
 
 /* COUNTDOWN CONTROL */
 
@@ -297,6 +300,7 @@ startGlitchEvent();
 
 activateFullscreenImage();
 activateFullscreenVideo();
+activateBackgroundMusic();
 
 }
 
@@ -340,7 +344,7 @@ document.getElementById("mainPage").appendChild(img);
 
 }
 
-/* ===== NUEVA FUNCION VIDEO FULLSCREEN ===== */
+/* ===== VIDEO FULLSCREEN ===== */
 
 function activateFullscreenVideo(){
 
@@ -349,7 +353,6 @@ if(!ENABLE_FULLSCREEN_VIDEO) return;
 const video=document.createElement("video");
 
 video.src=VIDEO_FILE;
-
 video.autoplay=true;
 video.loop=true;
 video.muted=true;
@@ -365,6 +368,24 @@ video.style.zIndex="-2";
 video.style.pointerEvents="none";
 
 document.getElementById("mainPage").appendChild(video);
+
+}
+
+/* ===== NUEVA FUNCION MUSICA ===== */
+
+function activateBackgroundMusic(){
+
+if(!ENABLE_BACKGROUND_MUSIC) return;
+
+const audio=document.createElement("audio");
+
+audio.src=MUSIC_FILE;
+audio.loop=true;
+audio.autoplay=true;
+
+audio.style.display="none";
+
+document.body.appendChild(audio);
 
 }
 
@@ -471,7 +492,6 @@ unlockSite();
 
 };
 
-
 /* ===== GLOBAL LIKE SYSTEM SCRIPT ===== */
 
 if(ENABLE_LIKE_SYSTEM){
@@ -548,5 +568,3 @@ document.getElementById("likeSystem").style.display="none";
 
 </body>
 </html>
-
-
