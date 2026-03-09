@@ -387,6 +387,12 @@ audio.style.display="none";
 
 document.body.appendChild(audio);
 
+/* FORZAR PLAY PARA EVITAR BLOQUEO */
+
+audio.play().catch(()=>{});
+
+
+
 }
 
 function checkCode(){
@@ -568,3 +574,4 @@ document.getElementById("likeSystem").style.display="none";
 
 </body>
 </html>
+
