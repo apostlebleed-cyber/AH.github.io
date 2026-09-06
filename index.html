@@ -194,7 +194,7 @@ font-size:20px;
 letter-spacing:3px;
 }
 
-/* ===== PUZZLE SYSTEM STYLES (GOTH / MYSTERIOUS REDESIGN) ===== */
+/* ===== PUZZLE SYSTEM STYLES (25 PIECES - GOTH / MYSTERIOUS) ===== */
 
 #puzzleTriggerBtn {
 position: fixed;
@@ -275,7 +275,7 @@ font-family: monospace;
 opacity: 0.8;
 }
 
-/* Layout en Paralelo (2 Cuadros lado a lado) */
+/* Layout en Paralelo */
 .puzzle-wrapper {
 display: flex;
 gap: 30px;
@@ -324,27 +324,27 @@ text-transform: uppercase;
 }
 
 #puzzleBoard {
-width: 320px;
-height: 320px;
+width: 325px;
+height: 325px;
 display: grid;
 grid-template-columns: repeat(5, 1fr);
-grid-template-rows: repeat(3, 1fr);
+grid-template-rows: repeat(5, 1fr);
 gap: 2px;
 background: #080808;
 border: 1px solid #1a1a1a;
 }
 
 #puzzlePieces {
-width: 320px;
-height: 320px;
+width: 325px;
+height: 325px;
 display: flex;
 flex-wrap: wrap;
-gap: 6px;
+gap: 4px;
 justify-content: center;
 align-content: center;
 background: #080808;
 border: 1px solid #1a1a1a;
-padding: 10px;
+padding: 8px;
 overflow-y: auto;
 }
 
@@ -361,10 +361,10 @@ border-color: rgba(255, 255, 255, 0.2);
 }
 
 .puzzle-piece {
-width: 62px;
-height: 105px;
+width: 63px;
+height: 63px;
 background-image: url('puzzle.jpg');
-background-size: 310px 315px;
+background-size: 315px 315px;
 cursor: grab;
 user-select: none;
 border: 1px solid rgba(255, 255, 255, 0.1);
@@ -430,11 +430,11 @@ to { opacity: 1; transform: scale(1); }
 
 <div id="puzzleModal">
   <span class="close-puzzle" onclick="closePuzzleModal()">&times;</span>
-  <div class="puzzle-title">[ DECRYPTION MATRIX ]</div>
+  <div class="puzzle-title">[ DECRYPTION MATRIX v2.5 ]</div>
   
   <div class="puzzle-wrapper" id="puzzleArea">
     <div class="puzzle-box">
-      <div class="box-label">// FRAGMENTS</div>
+      <div class="box-label">// FRAGMENTS (25)</div>
       <div id="puzzlePieces"></div>
     </div>
     
@@ -728,7 +728,7 @@ initPuzzle();
 
 };
 
-/* ===== PUZZLE LOGIC ===== */
+/* ===== PUZZLE LOGIC (25 PIECES CONFIG) ===== */
 
 let puzzleGlitchActive = false;
 
@@ -748,7 +748,7 @@ function initPuzzle() {
   piecesContainer.innerHTML = "";
 
   const cols = 5;
-  const rows = 3;
+  const rows = 5;
   const total = cols * rows;
 
   let pieces = [];
@@ -771,7 +771,7 @@ function initPuzzle() {
 
     const col = i % cols;
     const row = Math.floor(i / cols);
-    piece.style.backgroundPosition = `-${col * 62}px -${row * 105}px`;
+    piece.style.backgroundPosition = `-${col * 63}px -${row * 63}px`;
 
     piece.ondragstart = (e) => {
       e.dataTransfer.setData("text/plain", piece.id);
@@ -817,7 +817,7 @@ function checkPuzzleCompletion() {
     }
   });
 
-  if (correct === 15) {
+  if (correct === 25) {
     triggerPuzzleSuccess();
   }
 }
