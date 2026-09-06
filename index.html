@@ -194,6 +194,108 @@ font-size:20px;
 letter-spacing:3px;
 }
 
+/* ===== PUZZLE SYSTEM STYLES ===== */
+
+#puzzleTriggerBtn {
+position: fixed;
+bottom: 80px;
+left: 50%;
+transform: translateX(-50%);
+width: 60px;
+height: 60px;
+border-radius: 50%;
+border: 2px solid white;
+background: transparent;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+z-index: 10;
+transition: transform 0.2s, background 0.2s;
+}
+
+#puzzleTriggerBtn:hover {
+background: rgba(255, 255, 255, 0.2);
+transform: translateX(-50%) scale(1.05);
+}
+
+.inner-square {
+width: 24px;
+height: 24px;
+border: 2px solid white;
+}
+
+#puzzleModal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100vh;
+background: rgba(0, 0, 0, 0.95);
+z-index: 100;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.close-puzzle {
+position: absolute;
+top: 20px;
+right: 30px;
+color: white;
+font-size: 30px;
+cursor: pointer;
+}
+
+#puzzleBoard {
+width: 300px;
+height: 300px;
+border: 2px dashed #555;
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(3, 1fr);
+gap: 2px;
+background: #111;
+margin-bottom: 20px;
+}
+
+#puzzlePieces {
+width: 300px;
+min-height: 190px;
+display: flex;
+flex-wrap: wrap;
+gap: 5px;
+justify-content: center;
+align-items: center;
+border: 1px solid #333;
+padding: 10px;
+background: #050505;
+}
+
+.puzzle-slot {
+width: 100%;
+height: 100%;
+background: rgba(255, 255, 255, 0.05);
+}
+
+.puzzle-piece {
+width: 58.4px;
+height: 98.6px;
+background-image: url('puzzle.jpg');
+background-size: 292px 296px;
+cursor: grab;
+user-select: none;
+}
+
+#revealImage {
+display: none;
+max-width: 300px;
+max-height: 300px;
+border: 2px solid white;
+object-fit: contain;
+}
+
 </style>
 </head>
 
@@ -218,8 +320,20 @@ letter-spacing:3px;
 
 <img id="mainImage" src="">
 
+<button id="puzzleTriggerBtn" onclick="openPuzzleModal()">
+  <div class="inner-square"></div>
+</button>
+
 <div class="footer-text">AFTERHOURZ 2026</div>
 
+</div>
+
+<div id="puzzleModal">
+  <span class="close-puzzle" onclick="closePuzzleModal()">&times;</span>
+  
+  <div id="puzzleBoard"></div>
+  <div id="puzzlePieces"></div>
+  <img id="revealImage" src="reveal.jpg" alt="Decoded Code">
 </div>
 
 <div id="likeSystem">
@@ -391,8 +505,6 @@ document.body.appendChild(audio);
 
 audio.play().catch(()=>{});
 
-
-
 }
 
 function checkCode(){
@@ -462,7 +574,7 @@ let glitchInterval;
 
 function randomGlitch(){
 
-if(!GLITCH_EVENT) return;
+if(!GLITCH_EVENT && !puzzleGlitchActive) return;
 
 const overlay=document.getElementById("glitchOverlay");
 
@@ -496,7 +608,125 @@ if(saved===ACCESS_CODE){
 unlockSite();
 }
 
+initPuzzle();
+
 };
+
+/* ===== PUZZLE LOGIC ===== */
+
+let puzzleGlitchActive = false;
+
+function openPuzzleModal() {
+  document.getElementById("puzzleModal").style.display = "flex";
+}
+
+function closePuzzleModal() {
+  document.getElementById("puzzleModal").style.display = "none";
+}
+
+function initPuzzle() {
+  const board = document.getElementById("puzzleBoard");
+  const piecesContainer = document.getElementById("puzzlePieces");
+  
+  board.innerHTML = "";
+  piecesContainer.innerHTML = "";
+
+  const cols = 5;
+  const rows = 3;
+  const total = cols * rows;
+
+  let pieces = [];
+
+  for (let i = 0; i < total; i++) {
+    // Crear ranura
+    const slot = document.createElement("div");
+    slot.classList.add("puzzle-slot");
+    slot.dataset.index = i;
+    slot.ondragover = (e) => e.preventDefault();
+    slot.ondrop = dropPiece;
+    board.appendChild(slot);
+
+    // Crear pieza
+    const piece = document.createElement("div");
+    piece.classList.add("puzzle-piece");
+    piece.draggable = true;
+    piece.id = "piece-" + i;
+    piece.dataset.index = i;
+
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    piece.style.backgroundPosition = `-${col * 58.4}px -${row * 98.6}px`;
+
+    piece.ondragstart = (e) => {
+      e.dataTransfer.setData("text/plain", piece.id);
+    };
+
+    pieces.push(piece);
+  }
+
+  // Mezclar piezas
+  pieces.sort(() => Math.random() - 0.5);
+  pieces.forEach(p => piecesContainer.appendChild(p));
+  
+  piecesContainer.ondragover = (e) => e.preventDefault();
+  piecesContainer.ondrop = (e) => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text/plain");
+    const draggedPiece = document.getElementById(id);
+    if (draggedPiece) piecesContainer.appendChild(draggedPiece);
+  };
+}
+
+function dropPiece(e) {
+  e.preventDefault();
+  const id = e.dataTransfer.getData("text/plain");
+  const draggedPiece = document.getElementById(id);
+  
+  if (this.children.length === 0 && draggedPiece) {
+    this.appendChild(draggedPiece);
+    checkPuzzleCompletion();
+  }
+}
+
+function checkPuzzleCompletion() {
+  const slots = document.querySelectorAll(".puzzle-slot");
+  let correct = 0;
+
+  slots.forEach(slot => {
+    if (slot.children.length > 0) {
+      const piece = slot.children[0];
+      if (slot.dataset.index === piece.dataset.index) {
+        correct++;
+      }
+    }
+  });
+
+  if (correct === 15) {
+    triggerPuzzleSuccess();
+  }
+}
+
+function triggerPuzzleSuccess() {
+  puzzleGlitchActive = true;
+  
+  // Ejecutar ráfaga de glitch
+  let glitchCount = 0;
+  const burst = setInterval(() => {
+    randomGlitch();
+    glitchCount++;
+    if (glitchCount > 8) {
+      clearInterval(burst);
+      puzzleGlitchActive = false;
+    }
+  }, 100);
+
+  // Mostrar la imagen revelada
+  setTimeout(() => {
+    document.getElementById("puzzleBoard").style.display = "none";
+    document.getElementById("puzzlePieces").style.display = "none";
+    document.getElementById("revealImage").style.display = "block";
+  }, 600);
+}
 
 /* ===== GLOBAL LIKE SYSTEM SCRIPT ===== */
 
@@ -574,18 +804,3 @@ document.getElementById("likeSystem").style.display="none";
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
