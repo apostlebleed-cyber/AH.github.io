@@ -194,7 +194,7 @@ font-size:20px;
 letter-spacing:3px;
 }
 
-/* ===== PUZZLE SYSTEM STYLES (25 PIECES - GOTH / MYSTERIOUS) ===== */
+/* ===== PUZZLE SYSTEM STYLES (FIXED FIT - NO SCROLL) ===== */
 
 #puzzleTriggerBtn {
 position: fixed;
@@ -324,8 +324,8 @@ text-transform: uppercase;
 }
 
 #puzzleBoard {
-width: 325px;
-height: 325px;
+width: 320px;
+height: 320px;
 display: grid;
 grid-template-columns: repeat(5, 1fr);
 grid-template-rows: repeat(5, 1fr);
@@ -335,17 +335,17 @@ border: 1px solid #1a1a1a;
 }
 
 #puzzlePieces {
-width: 325px;
-height: 325px;
+width: 320px;
+height: 320px;
 display: flex;
 flex-wrap: wrap;
 gap: 4px;
-justify-content: center;
-align-content: center;
+justify-content: flex-start;
+align-content: flex-start;
 background: #080808;
 border: 1px solid #1a1a1a;
 padding: 8px;
-overflow-y: auto;
+overflow: hidden; /* Elimina la barra de scroll y evita bugs */
 }
 
 .puzzle-slot {
@@ -361,10 +361,10 @@ border-color: rgba(255, 255, 255, 0.2);
 }
 
 .puzzle-piece {
-width: 63px;
-height: 63px;
+width: 57.6px;
+height: 57.6px;
 background-image: url('puzzle.jpg');
-background-size: 315px 315px;
+background-size: 288px 288px;
 cursor: grab;
 user-select: none;
 border: 1px solid rgba(255, 255, 255, 0.1);
@@ -728,7 +728,7 @@ initPuzzle();
 
 };
 
-/* ===== PUZZLE LOGIC (25 PIECES CONFIG) ===== */
+/* ===== PUZZLE LOGIC (EXACT FIT 25 PIECES) ===== */
 
 let puzzleGlitchActive = false;
 
@@ -771,7 +771,7 @@ function initPuzzle() {
 
     const col = i % cols;
     const row = Math.floor(i / cols);
-    piece.style.backgroundPosition = `-${col * 63}px -${row * 63}px`;
+    piece.style.backgroundPosition = `-${col * 57.6}px -${row * 57.6}px`;
 
     piece.ondragstart = (e) => {
       e.dataTransfer.setData("text/plain", piece.id);
