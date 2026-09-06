@@ -194,7 +194,7 @@ font-size:20px;
 letter-spacing:3px;
 }
 
-/* ===== PUZZLE SYSTEM STYLES (FIXED FIT - NO SCROLL) ===== */
+/* ===== PUZZLE SYSTEM STYLES (GRID FIX - EXACT FIT) ===== */
 
 #puzzleTriggerBtn {
 position: fixed;
@@ -287,7 +287,7 @@ flex-wrap: wrap;
 .puzzle-box {
 background: #000;
 border: 1px solid #222;
-padding: 15px;
+padding: 12px;
 position: relative;
 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
@@ -324,8 +324,8 @@ text-transform: uppercase;
 }
 
 #puzzleBoard {
-width: 320px;
-height: 320px;
+width: 310px;
+height: 310px;
 display: grid;
 grid-template-columns: repeat(5, 1fr);
 grid-template-rows: repeat(5, 1fr);
@@ -335,17 +335,15 @@ border: 1px solid #1a1a1a;
 }
 
 #puzzlePieces {
-width: 320px;
-height: 320px;
-display: flex;
-flex-wrap: wrap;
-gap: 4px;
-justify-content: flex-start;
-align-content: flex-start;
+width: 310px;
+height: 310px;
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(5, 1fr);
+gap: 2px;
 background: #080808;
 border: 1px solid #1a1a1a;
-padding: 8px;
-overflow: hidden; /* Elimina la barra de scroll y evita bugs */
+overflow: hidden;
 }
 
 .puzzle-slot {
@@ -361,10 +359,10 @@ border-color: rgba(255, 255, 255, 0.2);
 }
 
 .puzzle-piece {
-width: 57.6px;
-height: 57.6px;
+width: 60px;
+height: 60px;
 background-image: url('puzzle.jpg');
-background-size: 288px 288px;
+background-size: 300px 300px;
 cursor: grab;
 user-select: none;
 border: 1px solid rgba(255, 255, 255, 0.1);
@@ -617,8 +615,6 @@ audio.style.display="none";
 
 document.body.appendChild(audio);
 
-/* FORZAR PLAY PARA EVITAR BLOQUEO */
-
 audio.play().catch(()=>{});
 
 }
@@ -728,7 +724,7 @@ initPuzzle();
 
 };
 
-/* ===== PUZZLE LOGIC (EXACT FIT 25 PIECES) ===== */
+/* ===== PUZZLE LOGIC (GRID PERFECT 5x5) ===== */
 
 let puzzleGlitchActive = false;
 
@@ -771,7 +767,7 @@ function initPuzzle() {
 
     const col = i % cols;
     const row = Math.floor(i / cols);
-    piece.style.backgroundPosition = `-${col * 57.6}px -${row * 57.6}px`;
+    piece.style.backgroundPosition = `-${col * 60}px -${row * 60}px`;
 
     piece.ondragstart = (e) => {
       e.dataTransfer.setData("text/plain", piece.id);
@@ -825,7 +821,6 @@ function checkPuzzleCompletion() {
 function triggerPuzzleSuccess() {
   puzzleGlitchActive = true;
   
-  // Ráfaga de glitch
   let glitchCount = 0;
   const burst = setInterval(() => {
     randomGlitch();
@@ -836,7 +831,6 @@ function triggerPuzzleSuccess() {
     }
   }, 100);
 
-  // Ocultar área de juego y revelar imagen
   setTimeout(() => {
     document.getElementById("puzzleArea").style.display = "none";
     document.getElementById("revealContainer").style.display = "block";
